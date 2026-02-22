@@ -59,7 +59,8 @@ with tab2:
     oee_df = compute_oee(oee_raw)
 
     units_df = get_units(line_name)
-    units_df["timestamp"] = pd.to_datetime(units_df["timestamp"])
+    units_df["timestamp"] = pd.to_datetime(units_df["timestamp"], format="ISO8601", errors="coerce", utc=True)
+    units_df = units_df.dropna(subset=["timestamp"])
     units_df = units_df.sort_values("timestamp")
 
     latest = oee_df.iloc[-1]
